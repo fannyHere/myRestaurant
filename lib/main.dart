@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_rest_aurant/detail_restaurant.dart';
 import 'home.dart';
 import 'list_restaurants.dart';
 
@@ -12,10 +13,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: list_restaurant(),
+      debugShowCheckedModeBanner: false,
+      home: HomeScreen(),
       routes: {
         HomeScreen.routeName: (context) => HomeScreen(),
         list_restaurant.routeName: (context) => list_restaurant(),
+        detail_restaurant.routeName: (context) => detail_restaurant(),
       },
     );
   }

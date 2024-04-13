@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:my_rest_aurant/controllers/get_list_restaurants.dart';
 
 import 'models/restaurant.dart';
@@ -22,23 +22,23 @@ class _list_restaurantState extends State<list_restaurant> {
     //     MediaQuery.of(context).size.width; //fulluntuk satu layar width
 
     //dibuat variable function untuk dimasukin ke dalam body height
-    final myAppbar = AppBar(
-      title: Text("media query"),
-      backgroundColor: Colors.blue,
-    );
+    // final myAppbar = AppBar(
+    //   title: Text("media query"),
+    //   backgroundColor: Colors.blue,
+    // );
 
     //tinggi all mediaqueryheight setelah dikurang sama myAppbar dan dikurang padding top (icon jam, baterai dll)
-    final bodyHeight = MediaQueryHeight -
-        myAppbar.preferredSize.height -
-        MediaQuery.of(context).padding.top;
+    // final bodyHeight = MediaQueryHeight -
+    //     myAppbar.preferredSize.height -
+    //     MediaQuery.of(context).padding.top;
 
     var allRestaurant = getAllRestaurant();
 
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text("Restaurants List"),
-      //   backgroundColor: Colors.pink,
-      // ),
+      appBar: AppBar(
+        title: Text("Restaurants List"),
+        backgroundColor: Colors.pink,
+      ),
       body: FutureBuilder<List<Restaurant>>(
         future: allRestaurant,
         builder: (context, snapshot) {
@@ -60,49 +60,60 @@ class _list_restaurantState extends State<list_restaurant> {
               return Padding(
                 padding: const EdgeInsets.all(5.0),
                 child: Container(
-                  height: bodyHeight * 0.3,
-                  child: Card(
-                    color: Color.fromARGB(255, 230, 200, 221),
-                    borderOnForeground: true,
-                    elevation: 20,
-                    child: Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        children: [
-                          Flexible(
-                            flex:
-                                4, // Bagian kiri (amber) akan mendapat 4/10 bagian dari total ruang
-                            child: Container(
-                              height: bodyHeight * 0.3,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: Colors.amber,
-                              ),
-                              child: ClipRRect(
-                                // untuk memotong gambar agar sesuai dengan border radius
-                                borderRadius: BorderRadius.circular(30),
-                                child: Image.network(
-                                  restaurant.pictureId,
-                                  fit: BoxFit.cover,
+                  height: MediaQueryHeight * 0.3,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(
+                        context,
+                        '/detail_restaurant',
+                        arguments: restaurant,
+                      );
+                    },
+                    child: Card(
+                      color: Color.fromARGB(255, 230, 200, 221),
+                      borderOnForeground: true,
+                      elevation: 20,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: Row(
+                          children: [
+                            Flexible(
+                              flex:
+                                  4, // Bagian kiri (amber) akan mendapat 4/10 bagian dari total ruang
+                              child: Container(
+                                height: MediaQueryHeight * 0.3,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(30),
+                                  color: Colors.amber,
+                                ),
+                                child: ClipRRect(
+                                  // untuk memotong gambar agar sesuai dengan border radius
+                                  borderRadius: BorderRadius.circular(30),
+                                  child: Image.network(
+                                    restaurant.pictureId,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Flexible(
-                            flex:
-                                6, // Bagian kanan (ungu) akan mendapat 6/10 bagian dari total ruang
-                            child: Container(
-                              height: bodyHeight * 0.3,
-                              color: Color.fromARGB(255, 170, 42, 128),
+                            Flexible(
+                              flex:
+                                  6, // Bagian kanan (ungu) akan mendapat 6/10 bagian dari total ruang
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Text(restaurant.name),
-                                  Text(restaurant.city),
                                   Text(
-                                    restaurant.description,
-                                    maxLines: 3,
+                                    restaurant.name,
+                                    textAlign: TextAlign.start,
                                   ),
+                                  Text(
+                                    restaurant.city,
+                                    textAlign: TextAlign.start,
+                                  ),
+                                  // Text(
+                                  //   restaurant.description,
+                                  //   maxLines: 2,
+                                  // ),
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
@@ -115,8 +126,8 @@ class _list_restaurantState extends State<list_restaurant> {
                                 ],
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
